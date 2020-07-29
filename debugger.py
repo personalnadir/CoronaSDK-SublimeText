@@ -16,8 +16,8 @@ import sys
 import socket
 import traceback
 
-if not os.path.isfile(os.path.join("User", "CoronaSDKLua.sublime-settings")):
-  with open(os.path.join("User", "CoronaSDKLua.sublime-settings"), "w") as f:
+if not os.path.isfile(os.path.join("User", "Corona Editor.sublime-settings")):
+  with open(os.path.join("User", "Corona Editor.sublime-settings"), "w") as f:
     f.write("""
 {
   "extensions":
