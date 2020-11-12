@@ -3,7 +3,7 @@
     "caption": "Preferences: Solar2D Editor Settings - Default",
     "command": "open_file",
     "args": {
-      "file": "${packages}/CoronaSDK-SublimeText/Solar2D Editor.sublime-settings"
+      "file": "${packages}/Corona Editor/Solar2D Editor.sublime-settings"
     }
   },
   {
