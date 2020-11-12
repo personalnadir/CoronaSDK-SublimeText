@@ -39,7 +39,7 @@ PACKAGE_NAME = "not set"
 PACKAGE_DIR = "not set"
 PACKAGE_USER_DIR = "not set"
 ST_PACKAGE_PATH = "not set"
-_corona_sdk_debug = False
+_debug_mode = False
 
 # In Sublime Text 3 most APIs are unavailable until a module level function is called (fortunately
 # sublime.version() is available so we can correctly fake things in Sublime Text 2; see about.py)
@@ -66,8 +66,8 @@ def GetSetting(key,default=None):
 
 
 def debug(*args):
-  global _corona_sdk_debug
-  if _corona_sdk_debug:
+  global _debug_mode
+  if _debug_mode:
     print("Solar2D Editor: ", '\t'.join(map(str, args)))
 
 
@@ -81,11 +81,11 @@ def Init():
   global PACKAGE_DIR
   global PACKAGE_USER_DIR
   global ST_PACKAGE_PATH
-  global _corona_sdk_debug
+  global _debug_mode
 
-  # Always look for "corona_sdk_debug" in 'Solar2D Editor.sublime-settings'
+  # Always look for "debug_mode" in 'Solar2D Editor.sublime-settings'
   settings = sublime.load_settings('Solar2D Editor.sublime-settings')
-  _corona_sdk_debug = settings.get("corona_sdk_debug", False)
+  _debug_mode = settings.get("debug_mode", False)
 
   print("Solar2D Editor: Init")
   debug("Python: " + str(sys.version))
@@ -136,12 +136,12 @@ def GetSimulatorCmd(mainlua=None, debug=False):
 
   simulator_path = ""
   simulator_flags = []
-  simulator_version = GetSetting("corona_sdk_version", None)
+  simulator_version = GetSetting("simulator_version", None)
 
   if mainlua is not None:
     simulator_path = GetSimulatorPathFromBuildSettings(mainlua)
     if simulator_path is None:
-      simulator_path = GetSetting("corona_sdk_simulator_path", None)
+      simulator_path = GetSetting("simulator_path", None)
 
   if platform == "osx":
     if simulator_path is None:
@@ -151,7 +151,7 @@ def GetSimulatorCmd(mainlua=None, debug=False):
     if simulator_path.endswith(".app"):
       simulator_path += "/Contents/MacOS/Corona Simulator"
     simulator_flags = ["-singleton", "1"]
-    if not GetSetting("corona_sdk_simulator_show_console", False):
+    if not GetSetting("simulator_show_console", False):
       simulator_flags += ["-no-console", "1"]
     if debug:
       simulator_flags.append("-debug")
@@ -170,14 +170,14 @@ def GetSimulatorCmd(mainlua=None, debug=False):
         if not os.path.isfile(simulator_path):
           simulator_path = "C:\\Program Files\\Corona Labs\\Corona SDK\\Corona Simulator.exe" # old location
     simulator_flags = ["/singleton"]
-    if not GetSetting("corona_sdk_simulator_show_console", False):
+    if not GetSetting("simulator_show_console", False):
       simulator_flags += ["/no-console"]
     if debug:
       simulator_flags.append("/debug")
 
   # Can we find an executable file at the path
   if not os.path.isfile(simulator_path) or not os.access(simulator_path, os.X_OK):
-    sublime.error_message("Cannot find executable Corona Simulator at path '{0}'\n\nYou can set the user preference 'corona_sdk_simulator_path' to the location of the Simulator.".format(simulator_path))
+    sublime.error_message("Cannot find executable Corona Simulator at path '{0}'\n\nYou can set the user preference 'simulator_path' to the location of the Simulator.".format(simulator_path))
     return None, None, None
 
   return simulator_path, simulator_flags, simulator_version
@@ -206,7 +206,7 @@ def GetLatestDailyBuildSimulatorPath():
     return None
 
 
-# Given a path to a main.lua file, see if there's a "corona_sdk_simulator_path" setting in
+# Given a path to a main.lua file, see if there's a "simulator_path" setting in
 # the corresponding build.settings file
 def GetSimulatorPathFromBuildSettings(mainlua):
   simulator_path = None
@@ -229,11 +229,11 @@ def GetSimulatorPathFromBuildSettings(mainlua):
     # Remove comments
     bs_contents = re.sub(r'--.*', '', bs_contents)
     # Note we can't use a Python r'' string here because we then can't escape the single quotes
-    bs_matches = re.findall('corona_sdk_simulator_path\s*=\s*["\'](.*)["\']', bs_contents)
+    bs_matches = re.findall('simulator_path\s*=\s*["\'](.*)["\']', bs_contents)
     if bs_matches is not None and len(bs_matches) > 0:
       # Last one wins
       simulator_path = bs_matches[-1]
-      print("Solar2D Editor: corona_sdk_simulator_path set from "+str(build_settings))
+      print("Solar2D Editor: simulator_path set from "+str(build_settings))
 
   return simulator_path
 

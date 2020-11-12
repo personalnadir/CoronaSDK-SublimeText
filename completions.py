@@ -73,7 +73,7 @@ class CoronaLabs:
 
   # Called by the snippets module to make sure completions are loaded
   def initialize(self):
-    self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", default="public"))
+    self.load_completions(_corona_utils.GetSetting("docset", default="public"))
 
 
   # If we're running ST2, load completions from file
@@ -133,9 +133,9 @@ class CoronaLabs:
   #  * if there's a period in the "completion target", return only the part following the period in the completions
 
   def find_completions(self, view, prefix):
-    self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", default="public"))
-    strip_white_space=_corona_utils.GetSetting("corona_sdk_completions_strip_white_space", default=False)
-    use_fuzzy_completion = _corona_utils.GetSetting("corona_sdk_use_fuzzy_completion", default=True)
+    self.load_completions(_corona_utils.GetSetting("docset", default="public"))
+    strip_white_space=_corona_utils.GetSetting("strip_white_space_from_completions", default=False)
+    use_fuzzy_completion = _corona_utils.GetSetting("use_fuzzy_completion", default=True)
 
     completion_target = self.current_word(view)
 
@@ -143,7 +143,7 @@ class CoronaLabs:
     # trim the part before the period from the returned string (or it will appear to be doubled)
     completion_adjustment = "" if "." not in completion_target else completion_target.partition('.')[0] + '.'
 
-    # _corona_utils.debug('prefix: ', prefix, 'completion_target: ', completion_target, "; completion_adjustment: ", completion_adjustment, "; corona_sdk_complete_periods: ", _corona_utils.GetSetting("corona_sdk_complete_periods", True) )
+    # _corona_utils.debug('prefix: ', prefix, 'completion_target: ', completion_target, "; completion_adjustment: ", completion_adjustment, "; include_periods_in_completions: ", _corona_utils.GetSetting("include_periods_in_completions", True) )
     self.setupFuzzyMatch(completion_target)
 
     # Sample:
@@ -162,8 +162,8 @@ class CoronaLabs:
     if completingRequireStatement or inString:
       extensions=[".lua"]
       if not completingRequireStatement:
-        extensions=_corona_utils.GetSetting("corona_sdk_autocomplete_extensions",default=[])
-      followSymlinks=_corona_utils.GetSetting("corona_sdk_follow_symlinks",default=False)
+        extensions=_corona_utils.GetSetting("autocomplete_extensions",default=[])
+      followSymlinks=_corona_utils.GetSetting("autocomplete_follow_symlinks",default=False)
       pathSuggestions=_lua_paths.getFilesAndPaths(view,extensions=extensions,followlinks=followSymlinks,converttoluapaths=completingRequireStatement)
       for namePath in pathSuggestions:
         name=namePath[0]
@@ -247,7 +247,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
   def is_lua_file(self, view):
     # Fairly rigorous test for being a Solar2D Lua file
     # If the file has not been saved optionally default to being a Solar2D Lua file
-    return view.match_selector(view.sel()[0].a, "source.lua.corona") if view.file_name() else _corona_utils.GetSetting("corona_sdk_default_new_file_to_corona_lua", default=True)
+    return view.match_selector(view.sel()[0].a, "source.lua.corona") if view.file_name() else _corona_utils.GetSetting("use_solar_syntax_for_new_files", default=True)
 
 
   # Optionally trigger a "build" when a .lua file is saved.  This is best
@@ -256,21 +256,21 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
   # doesn't work
   def on_post_save(self, view):
     if self.is_lua_file(view):
-      auto_build = _corona_utils.GetSetting("corona_sdk_auto_build", default=False)
+      auto_build = _corona_utils.GetSetting("auto_build", default=False)
       if auto_build:
         _corona_utils.debug("Solar2D Editor: auto build triggered")
         view.window().run_command("build")
 
-    if view.file_name().lower().endswith(".lua") and _corona_utils.GetSetting("corona_sdk_default_new_file_to_corona_lua", default=True):
+    if view.file_name().lower().endswith(".lua") and _corona_utils.GetSetting("use_solar_syntax_for_new_files", default=True):
       view.set_syntax_file('Packages/' + _corona_utils.PACKAGE_NAME + '/Solar2D Lua.sublime-syntax')
 
   # When a Lua file is loaded and the "use_periods_in_completion" user preference is set,
   # add period to "auto_complete_triggers" if it's not already there.
   def on_load(self, view):
-    use_corona_sdk_completion = _corona_utils.GetSetting("corona_sdk_completion", default=True)
+    use_completions_enabled = _corona_utils.GetSetting("completions_enabled", default=True)
 
-    if use_corona_sdk_completion and self.is_lua_file(view):
-      use_periods_in_completion = _corona_utils.GetSetting("corona_sdk_complete_periods", default=True)
+    if use_completions_enabled and self.is_lua_file(view):
+      use_periods_in_completion = _corona_utils.GetSetting("include_periods_in_completions", default=True)
 
       # Completion behavior is improved if periods are included in the completion process
       if use_periods_in_completion:
@@ -299,17 +299,17 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
 
 
   def on_query_completions(self, view, prefix, locations):
-    use_corona_sdk_completion = _corona_utils.GetSetting("corona_sdk_completion", True)
+    use_completions_enabled = _corona_utils.GetSetting("completions_enabled", True)
 
-    if self._first_time and use_corona_sdk_completion:
+    if self._first_time and use_completions_enabled:
       if not self.is_lua_file(view) and view.file_name().lower().endswith(".lua"):
         msg = "Solar2D Editor: syntax is not set to 'Solar2D Lua' so completion is inactive"
         sublime.status_message(msg)
         print(msg)
         self._first_time = False
 
-    _corona_utils.debug("on_query_completions: ",  "use_corona_sdk_completion: ", use_corona_sdk_completion, "source.lua.corona - entity: ", view.match_selector(locations[0], "source.lua.corona - entity"))
-    if use_corona_sdk_completion and view.match_selector(locations[0], "source.lua.corona - entity"):
+    _corona_utils.debug("on_query_completions: ",  "use_completions_enabled: ", use_completions_enabled, "source.lua.corona - entity: ", view.match_selector(locations[0], "source.lua.corona - entity"))
+    if use_completions_enabled and view.match_selector(locations[0], "source.lua.corona - entity"):
       comps = self.find_completions(view, prefix)
       flags = 0  # sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS
       return (comps, flags)

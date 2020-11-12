@@ -46,17 +46,17 @@ def is_string_instance(obj):
 statusRegion = None
 
 # We change our behavior to avoid complications with certain Solar2D releases
-corona_sdk_version = None
+simulator_version = None
 # Getting settings in certain threads locks up Sublime Text so do it just once
-corona_sdk_debug = _corona_utils.GetSetting("corona_sdk_debug", False)
+debug_mode = _corona_utils.GetSetting("debug_mode", False)
 
 debugFP = None
 
 def debug(s):
   global debugFP
-  global corona_sdk_debug
+  global debug_mode
   try:
-    if not debugFP and corona_sdk_debug:
+    if not debugFP and debug_mode:
       if not os.path.isdir(_corona_utils.PACKAGE_USER_DIR):
         os.makedirs(_corona_utils.PACKAGE_USER_DIR)
       debugFP = open(os.path.normpath(os.path.join(_corona_utils.PACKAGE_USER_DIR, "debug.log")), "w", 1)
@@ -226,8 +226,8 @@ class CoronaDebuggerThread(threading.Thread):
 
     self.doCommand('backtrace')
     # Skip displaying local variables on problematic releases (if we know what it is)
-    if corona_sdk_version and ( int(corona_sdk_version) >= 2489 and int(corona_sdk_version) < 2517 ):
-      variables_output("Local variable display disabled with this version of Solar2D ("+corona_sdk_version+").  Try a build after 2515")
+    if simulator_version and ( int(simulator_version) >= 2489 and int(simulator_version) < 2517 ):
+      variables_output("Local variable display disabled with this version of Solar2D ("+simulator_version+").  Try a build after 2515")
     else:
       self.doCommand('locals')
 
@@ -553,8 +553,8 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
   def run(self, cmd=None, arg_filename=None, arg_lineno=None, arg_toggle=True):
     debug("CoronaDebuggerCommand: " + cmd)
     global coronaDbg
-    global corona_sdk_version
-    global corona_sdk_debug
+    global simulator_version
+    global debug_mode
     self.view = self.window.active_view()
 
     if self.view is None:
@@ -566,7 +566,7 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
       cmd = "start"
 
     if cmd == "start":
-      if corona_sdk_debug:
+      if debug_mode:
         # Show Sublime Console
         self.window.run_command("show_panel", {"panel": "console"})
         # sublime.log_commands(True)
@@ -612,8 +612,8 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
 
       debug("dbg_version: " + str(dbg_version))
       if dbg_version:
-        corona_sdk_version = dbg_version.rpartition(".")[2]
-        debug("corona_sdk_version: " + str(corona_sdk_version))
+        simulator_version = dbg_version.rpartition(".")[2]
+        debug("simulator_version: " + str(simulator_version))
 
       global consoleOutputQ, variablesOutputQ, luaStackOutputQ, debuggerCmdQ
       consoleOutputQ = coronaQueue.Queue()
@@ -651,7 +651,7 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
     elif cmd in ["run", "step", "over"]:
       coronaDbg.doCommand(cmd)
       coronaDbg.doCommand('backtrace')
-      if not corona_sdk_version or ( int(corona_sdk_version) < 2489 or int(corona_sdk_version) > 2515 ):
+      if not simulator_version or ( int(simulator_version) < 2489 or int(simulator_version) > 2515 ):
         coronaDbg.doCommand('locals')
     elif cmd == "dump":
       self.dumpVariable()

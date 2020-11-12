@@ -6,7 +6,7 @@ Solar2D Editor
 ## Sublime Text Version
 
 [***Sublime Text 3***](https://www.sublimetext.com/) is required to use Solar2D Editor.
- 
+
 ## Installation Instructions
 
 1. Install the ***Sublime Text*** **Package Control** plugin if you don't already have it using **Tools > Command Palette... > Install Package Control**
@@ -48,12 +48,12 @@ The following keys also control the Debugger:
 | F11       | Step over         |
 | Shift+F11 | Step into         |
 
-A simpler alternative to the **Build** command in ***Sublime Text*** is the **Run Project** command in the **Solar2D Editor** menu (or Super+F10).  It doesn't have all the bells and whistles of the build system but it is quick and easy.  It is also better at finding your project's `main.lua` if you aren't using ***Sublime Text***'s projects.  Super+B (usually bound to the **Build** command) is now bound to the **Run Project** command for Solar2D Lua files. 
+A simpler alternative to the **Build** command in ***Sublime Text*** is the **Run Project** command in the **Solar2D Editor** menu (or Super+F10).  It doesn't have all the bells and whistles of the build system but it is quick and easy.  It is also better at finding your project's `main.lua` if you aren't using ***Sublime Text***'s projects.  Super+B (usually bound to the **Build** command) is now bound to the **Run Project** command for Solar2D Lua files.
 
-On macOS, if you install Solar2D in **/Applications** without changing the default name, it will use the highest numbered (most recent) build to run the project (to change this behavior, see `corona_sdk_simulator_path` below).
+On macOS, if you install Solar2D in **/Applications** without changing the default name, it will use the highest numbered (most recent) build to run the project (to change this behavior, see `simulator_path` below).
 
 ##### Preferences
- * `corona_sdk_simulator_path` (default: system dependent)
+ * `simulator_path` (default: system dependent)
 
 	Set this to the path of your Solar2D Simulator if it's not installed
 	in the default location for your operating system (remember to double
@@ -63,8 +63,8 @@ On macOS, if you install Solar2D in **/Applications** without changing the defau
 	is different to the JSON syntax of the ***Sublime Text*** preference files in that
 	the name of the preference is not quoted in Lua).
 
- * `corona_sdk_simulator_show_console` (default: false)
- 
+ * `simulator_show_console` (default: false)
+
     Set this to true to have the Solar2D Simulator Console be shown when running a project with **Super+F10** (or **Super+B**).
 
 ##### Current Gotchas
@@ -77,19 +77,19 @@ On macOS, if you install Solar2D in **/Applications** without changing the defau
 Completion works for all API calls and constants (correctly handling periods in the name).  Fuzzy matching is optionally done to increase the chances of finding the item you are looking for.  Completion relies on the current **Syntax** setting so when creating new files you should use **View > Syntax > Lua (Solar2D)** command to set the correct syntax for the new file.  You will probably also want to change ***Sublime Text***'s default for .lua files by choosing **View > Syntax > Open all with current extension as... > Lua (Solar2D)** when you have a .lua file open in the editor.
 
 ##### Preferences
- * `corona_sdk_completion` (default: True)
+ * `completions_enabled` (default: True)
 
 	If you don't like Solar2D Editor's completion you can turn it off entirely using this preference.
 
- * `corona_sdk_use_fuzzy_completion` (default: True)
+ * `use_fuzzy_completion` (default: True)
 
 	Turn off "fuzzy completion" and just complete based on the characters typed so far as a prefix.
 
- * `corona_sdk_complete_periods` (default: True)
+ * `include_periods_in_completions` (default: True)
 
 	Solar2D Editor turns off the special meaning of periods as "word separators" in Sublime Text to make Solar2D completions work better.  If you like to use cursor movement keys like "Alt+Arrow" to move to the periods in function calls you might want to turn this off.  The most obvious effect of turning it off is that when you type a period all the completions disappear until you type another character.
 
- * `corona_sdk_use_docset` (default: `public`)
+ * `docset` (default: `public`)
 
 	Choose which completion set you want to use.  Can be one of `public` (the default), `legacy`(deprecated) or `daily`(deprecated).
 

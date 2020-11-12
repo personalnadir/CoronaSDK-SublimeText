@@ -2,11 +2,11 @@
 {
 	// If you don't like Solar2D Editor's completion you can turn it off
 	// entirely using this preference.
-	"corona_sdk_completion": true,
+	"completions_enabled": true,
 
 	// Set to "false" to turn off "fuzzy completion" and just complete based
 	// on the characters typed so far as a prefix.
-	"corona_sdk_use_fuzzy_completion": true,
+	"use_fuzzy_completion": true,
 
 	// Solar2D Editor turns off the special meaning of periods as "word
 	// separators" in Sublime Text to make Solar2D completions work better.  If
@@ -14,42 +14,42 @@
 	// periods in function calls you might want to turn this off.  The most
 	// obvious effect of turning it off is that when you type a period all the
 	// completions disappear until you type another character.
-	"corona_sdk_complete_periods": true,
+	"include_periods_in_completions": true,
 
 	// If this is true then any new file that has not yet been saved will be
 	// assumed to be a Solar2D Lua file
-	"corona_sdk_default_new_file_to_corona_lua": true,
+	"use_solar_syntax_for_new_files": true,
 
 	// Set this to the path of your Solar2D Simulator if it's not installed
 	// in the default location for your operating system (remember to double
 	// backslashes in Windows' paths)
-	// "corona_sdk_simulator_path": "<path-to-simulator>",
+	// "simulator_path": "<path-to-simulator>",
 
 	// If you set this to "true" the Sublime Text "build" command will be
 	// issued any time you save a Lua file.
-	"corona_sdk_auto_build": false,
+	"auto_build": false,
 
 	// Choose which documentation set you want to use.  Can be one of
 	// "public" (the default), "legacy" or "daily". [deprecated]
- 	"corona_sdk_use_docset": "public",
+ 	"docset": "public",
 
  	// remove white space from the completions, for example by default a
  	// completion might look like:
  	// display.capture( displayObject [, saveToPhotoLibrary ] )
  	// when set to true it will become
  	// display.capture(displayObject[, saveToPhotoLibrary])
- 	"corona_sdk_completions_strip_white_space":false,
+ 	"strip_white_space_from_completions":false,
 
  	// Solar2D Editor will attempt to suggest lua files for you to import when
  	// typing out 'require' statements. By default Solar2D Editor will not follow
  	// softlinks in your project structure. Set this to true to follow links, but beware
  	// it is possible to set up infinite cycles if a link to a root directory in your project
  	// appears in a subdirectory.
- 	"corona_sdk_follow_symlinks":false,
+ 	"autocomplete_follow_symlinks":false,
 
  	// When typing out a string Solar2D Editor can autosuggest files and paths. The list below filters the suggestions.
  	// Extend it with any other useful formats. The list is case insensitive.
- 	"corona_sdk_autocomplete_extensions":[".png",".jpeg",".jpg",".wav",".mp3"],
+ 	"autocomplete_extensions":[".png",".jpeg",".jpg",".wav",".mp3"],
 
  	// set as default syntax for all Lua files
  	"extensions": [
