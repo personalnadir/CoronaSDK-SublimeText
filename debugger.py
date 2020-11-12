@@ -766,10 +766,6 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
         view.set_name(w['title'])
         view.settings().set('word_wrap', True)
         view.settings().set('_corona_debugger_pane', True)
-        # if view.name() != 'Console':
-        #   # Set the syntax coloring for the Variables and Stack panes
-        #   # to CoronaSDKLua as that works well
-        #   view.set_syntax_file('Packages/' + _corona_utils.PACKAGE_NAME + '/CoronaSDKLua.sublime-syntax')
         view.set_read_only(True)
         view.set_scratch(True)
         view.run_command("toggle_setting", {"setting": "line_numbers"})
