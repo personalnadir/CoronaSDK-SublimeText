@@ -68,7 +68,7 @@ def GetSetting(key,default=None):
 def debug(*args):
   global _corona_sdk_debug
   if _corona_sdk_debug:
-    print("Corona Editor: ", '\t'.join(map(str, args)))
+    print("Solar2D Editor: ", '\t'.join(map(str, args)))
 
 
 InitializedEvent = threading.Event()
@@ -83,11 +83,11 @@ def Init():
   global ST_PACKAGE_PATH
   global _corona_sdk_debug
 
-  # Always look for "corona_sdk_debug" in 'Corona Editor.sublime-settings'
+  # Always look for "corona_sdk_debug" in 'Solar2D Editor.sublime-settings'
   settings = sublime.load_settings('Solar2D Editor.sublime-settings')
   _corona_sdk_debug = settings.get("corona_sdk_debug", False)
 
-  print("Corona Editor: Init")
+  print("Solar2D Editor: Init")
   debug("Python: " + str(sys.version))
 
   PLUGIN_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -233,7 +233,7 @@ def GetSimulatorPathFromBuildSettings(mainlua):
     if bs_matches is not None and len(bs_matches) > 0:
       # Last one wins
       simulator_path = bs_matches[-1]
-      print("Corona Editor: corona_sdk_simulator_path set from "+str(build_settings))
+      print("Solar2D Editor: corona_sdk_simulator_path set from "+str(build_settings))
 
   return simulator_path
 
