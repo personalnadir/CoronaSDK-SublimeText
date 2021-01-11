@@ -51,15 +51,9 @@ def GetSetting(key,default=None):
   debug("GetSetting: " + str(key) + " (default: " + str(default) + ")")
   settings = sublime.load_settings('Solar2D Editor.sublime-settings')
   debug("GetSetting: value from CE settings: " + str(settings.get(key, default)))
-  # If we don't have a value for this preference in the Solar2D Editor settings, look in the view for a value
-  # (this happens if the preference is set in the main Sublime Text preference file instead of the Solar2D Editor file)
-  if not settings.get(key, default) and sublime and sublime.active_window() and sublime.active_window().active_view():
-    debug("GetSetting: getting value from view: " + str(sublime.active_window().active_view()))
-    settings = sublime.active_window().active_view().settings()
-
   value = settings.get(key, default)
 
-  if not value:
+  if not settings.has(key):
     debug("GetSetting: no value for preference '" + str(key) + "' found (using default '"+ str(default) + "')")
 
   return value
