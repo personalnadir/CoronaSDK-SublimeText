@@ -68,7 +68,7 @@ class CoronaDocsCommand(sublime_plugin.TextCommand):
     isLuaKeyword = self.view.match_selector(start,
                                             "keyword.control.lua, support.function.lua, support.function.library.lua")
 
-    use_docset = _corona_utils.GetSetting("corona_sdk_use_docset", "public")
+    use_docset = _corona_utils.GetSetting("docset", "public")
     if use_docset in ['legacy', 'daily']:
       docset = use_docset + "/"
     else:

@@ -1,7 +1,7 @@
 #
-# Sublime Text plugin to support Corona Editor
+# Sublime Text plugin to support Solar2D Editor
 #
-# Copyright (c) 2013 Corona Labs Inc. A mobile development software company. All rights reserved.
+# Copyright (c) 2020 Solar2D
 #
 # MIT License - see https://raw.github.com/coronalabs/CoronaSDK-SublimeText/master/LICENSE
 
@@ -101,7 +101,7 @@ class RunProjectCommand(sublime_plugin.WindowCommand):
     # build panel and go to that point in the code
     if sublime.platform() == 'osx':
       # On OS X, running the command as a string argument to the shell allows
-      # the "corona_sdk_simulator_show_console" option to work (otherwise
+      # the "simulator_show_console" option to work (otherwise
       # stdout gets screwed up and hangs)
       try:  # py3
           from shlex import quote

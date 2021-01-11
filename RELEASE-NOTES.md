@@ -5,21 +5,21 @@ Always check the [README](https://github.com/coronalabs/CoronaSDK-SublimeText/bl
 ### 1.8.0
 
  * Changed branding to Solar2D
- 
+
  * Changed syntax name to Lua (Solar2D)
- 
+
  * Updated autocomplete file - event.xDelta/yDelta, sqlite3, lateUpdate, transition.resumeAll(), pauseAll(), cancelAll() and timer.resumeAll(), pauseAll(), cancelAll()
- 
+
  * Changed http:// calls to https://
 
 ### 1.7.9
 
  * Fix syntax file loading
- 
+
  * Correct file name
- 
+
  * Remove code causing crash
- 
+
  * Dynamically generate path for syntax file
 
 ### 1.7.8
@@ -80,7 +80,7 @@ Always check the [README](https://github.com/coronalabs/CoronaSDK-SublimeText/bl
 
  * All errors in the build panel should once more be clickable to go to that location in the source code
 
- * A new setting `corona_sdk_simulator_show_console` has been added, which, if set to true, will cause the Corona Simulator Console to be shown when running a project with **Super+F10**
+ * A new setting `simulator_show_console` has been added, which, if set to true, will cause the Corona Simulator Console to be shown when running a project with **Super+F10**
 
 ### 1.6.0
 
@@ -152,7 +152,7 @@ Always check the [README](https://github.com/coronalabs/CoronaSDK-SublimeText/bl
 	 * Handle invalid completion data files more gracefully
 	 * Latest completions from Corona SDK documentation
 
- * Set user preference `corona_sdk_debug` to true to turn on debug output in the ***Sublime Text*** console (works for certain modules).
+ * Set user preference `debug_mode` to true to turn on debug output in the ***Sublime Text*** console (works for certain modules).
 
  * Add instructions in the README for using the development version.
 
@@ -173,7 +173,7 @@ Always check the [README](https://github.com/coronalabs/CoronaSDK-SublimeText/bl
 ### 0.8.9
 
  * **Completions**
-	Various improvements to completion including many more completions and the inclusion of "types". 
+	Various improvements to completion including many more completions and the inclusion of "types".
 	Colons are now handled correctly so Lua objects now complete properly.
 
 ### 0.8.8
